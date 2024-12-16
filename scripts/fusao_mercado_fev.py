@@ -4,7 +4,7 @@ import csv
 #Paths
 path_json = "data_raw/dados_empresaA.json"
 path_csv = "data_raw/dados_empresaB.csv"
-
+path_dados_combinados= 'data_processed/dados_combinados.csv'
 #Funções 
 
 def leitura_json(path_json):
@@ -32,7 +32,7 @@ def leitura_dados(path,tipo_arquivo):
 
 
 def get_columns(dados):
-    return list(dados[0].keys())
+    return list(dados[-1].keys())
     
 
 def rename_columns(dados , key_mapping):
@@ -55,6 +55,21 @@ def join(dadosA,dadosB):
     combined_list.extend(dadosB)
     return combined_list
      
+def transformando_dados_tabela(dados,nomes_colunas):
+    dados_combinados_tabela = [nomes_colunas]
+
+    for row in dados:
+        linha = []
+        for coluna in nomes_colunas:
+            linha.append(row.get(coluna, 'Indisponivel'))
+        dados_combinados_tabela.append(linha)
+    return dados_combinados_tabela        
+
+
+def salvando_dados(dados,path):
+    with open(path, "w") as file:
+        writer = csv.writer(file)
+        writer.writerows(dados)
 
 #iniciando a leitura 
 dados_json = leitura_dados(path_json, "json")
@@ -101,3 +116,9 @@ print(nomes_colunas_fusao)
 print(tamanho_dados_fusao)
 
 
+#Salvando dados
+
+dados_fusao_tabela = transformando_dados_tabela(dados_fusao, nomes_colunas_fusao)
+
+salvando_dados(dados_fusao_tabela,path_dados_combinados)
+print(path_dados_combinados)
