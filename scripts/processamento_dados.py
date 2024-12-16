@@ -7,6 +7,8 @@ class Dados:
         self.tipo_dados = tipo_dados
         self.dados = self.leitura_dados()  # Chamada correta para leitura_dados após definição
         self.nomes_colunas = self.get_columns()
+        self.qtd_linhas = self.size_data()
+
 
     def leitura_json(self):
         dados_json = []
@@ -28,6 +30,9 @@ class Dados:
             dados = self.leitura_csv()
         elif self.tipo_dados == 'json': 
             dados = self.leitura_json()
+        elif self.tipo_dados == "list":
+            dados= self.path    
+            self.path = "lista em memoria"
         return dados
 
     def get_columns(self):
@@ -43,3 +48,13 @@ class Dados:
         new_dados[0]
         self.dados = new_dados
         self.nomes_colunas = self.get_columns()
+
+    def size_data(self):
+        return len(self.dados)
+    
+    def join(dadosA,dadosB):
+        combined_list = []
+        combined_list.extend(dadosA.dados)
+        combined_list.extend(dadosB.dados)
+        
+        return Dados(combined_list,'list')

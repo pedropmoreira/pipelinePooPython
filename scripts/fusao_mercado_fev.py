@@ -39,6 +39,9 @@ print(dados_empresaA.nomes_colunas)
 dados_empresaB = Dados(path_csv, 'csv')
 print(dados_empresaB.nomes_colunas)
 
+print(dados_empresaA.qtd_linhas)
+print(dados_empresaB.qtd_linhas)
+
 #transform 
 
 key_mapping = {'Nome do Item': 'Nome do Produto',
@@ -50,6 +53,12 @@ key_mapping = {'Nome do Item': 'Nome do Produto',
 
 dados_empresaB.rename_columns(key_mapping)
 print(dados_empresaB.nomes_colunas)
+
+dados_fusao = Dados.join(dados_empresaA,dados_empresaB)
+print(dados_fusao.nomes_colunas)
+print(dados_fusao.qtd_linhas)
+
+
 
 # #iniciando a leitura 
 # dados_json = leitura_dados(path_json, "json")
